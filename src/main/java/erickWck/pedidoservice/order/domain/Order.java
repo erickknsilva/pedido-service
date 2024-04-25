@@ -1,4 +1,4 @@
-package erickWck.pedidoservice.domain;
+package erickWck.pedidoservice.order.domain;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.CreatedDate;
