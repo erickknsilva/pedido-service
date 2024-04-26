@@ -19,13 +19,13 @@ public record Order(
         @NotNull(message = "Insira o Identificador do produto")
         Long productId,
 
-        String productName,
+        String name,
+
+        String marca,
 
         BigDecimal preco,
 
-        String status,
-
-        Integer quantity,
+        OrderStatus status,
 
         @CreatedDate
         Instant createdDate,
@@ -36,4 +36,25 @@ public record Order(
 
 ) {
 
+    public static Order of(Long id, Long productId, String productName, String marca,
+                           BigDecimal preco, OrderStatus status) {
+
+        return new Order(null, productId, productName, marca, preco,
+                status, null, null, 0);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", name='" + name + '\'' +
+                ", preco=" + preco +
+                ", status=" + status +
+                ", createdDate=" + createdDate +
+                ", lastModifiedDate=" + lastModifiedDate +
+                ", version=" + version +
+                '}';
+    }
 }

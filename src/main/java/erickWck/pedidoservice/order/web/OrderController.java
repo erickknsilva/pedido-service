@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -19,10 +20,9 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-
     @PostMapping
-    public void submitOrder(@Valid @RequestBody OrderRequest orderRequest) {
-        orderService.sendOrder(orderRequest.id(), orderRequest.quantity());
+    public void submitOrder(@Valid @RequestBody OrdersRequest orderRequest) {
+        orderService.sendOrder(orderRequest);
     }
 
 }

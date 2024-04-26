@@ -16,7 +16,7 @@ public record ProductResponse(
     @Override
     public String toString() {
         return "ProductResponse{" +
-                "id=" + id +
+                "ids=" + id +
                 ", name='" + name + '\'' +
                 ", modelo='" + modelo + '\'' +
                 ", marca='" + marca + '\'' +
