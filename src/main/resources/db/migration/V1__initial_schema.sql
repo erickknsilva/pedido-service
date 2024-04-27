@@ -1,5 +1,6 @@
 CREATE TABLE orders (
 id BIGSERIAL PRIMARY KEY NOT NULL,
+order_id BIGINT NOT NULL,
 product_id integer NOT NULL,
 name varchar(155),
 marca varchar(155),

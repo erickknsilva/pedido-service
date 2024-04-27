@@ -16,6 +16,9 @@ public record Order(
         @Id
         Long id,
 
+        @NotNull(message = "Insira o identificador de pedido.")
+        Long orderId,
+
         @NotNull(message = "Insira o Identificador do produto")
         Long productId,
 
@@ -36,10 +39,10 @@ public record Order(
 
 ) {
 
-    public static Order of(Long id, Long productId, String productName, String marca,
+    public static Order of(Long id, Long orderId, Long productId, String productName, String marca,
                            BigDecimal preco, OrderStatus status) {
 
-        return new Order(null, productId, productName, marca, preco,
+        return new Order(null, orderId, productId, productName, marca, preco,
                 status, null, null, 0);
     }
 
