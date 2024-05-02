@@ -25,32 +25,35 @@ public class OrderService {
     private final ProductClient productClient;
     private final OrderServiceQuery orderServiceQuery;
 
-    public Mono<List<Order>> sendOrder(OrdersRequest ordersRequest) {
+
+    public Mono<List<Order>> sendOrder(OrdersRequest orderRequest) {
 
         return productClient
-                .getProductId(ordersRequest)
-                .map(pay -> processPayment(pay, ordersRequest.paymentRequest()))
+                .getProductId(orderRequest)
+                .map(listOrder -> dispatcherPayment(listOrder, orderRequest.paymentRequest()))
                 .flatMap(orders -> orderServiceQuery.processAndSaveOrders(orders));
     }
 
 
-    public List<ProductResponse> processPayment(List<ProductResponse> pay,
-                                                PaymentRequest paymentRequest) {
+    public List<ProductResponse> dispatcherPayment(List<ProductResponse> listOrder,
+                                                   PaymentRequest paymentRequest) {
 
-        BigDecimal amountFinal = orderServiceQuery.calculatorAmountFinal(pay);
+        Long orderId = orderServiceQuery.generatePositiveOrderId();
+
+        BigDecimal amountFinal = orderServiceQuery.calculatorAmountFinal(listOrder);
 
         var paymentDispatcherMessage =
                 PaymentDispatcherMessage.of(amountFinal, paymentRequest.type(),
                         paymentRequest.cardNumber(), paymentRequest.expiryDate(),
-                        paymentRequest.cvv(), paymentRequest.cardholderName());
+                        paymentRequest.cvv(), paymentRequest.cardholderName(),
+                        orderId);
 
-        log.info("Enviando o pagamento para processo", paymentDispatcherMessage.toString());
 
+        log.info("Enviando o pagamento para processo {}", paymentDispatcherMessage);
         streamBridge.send("paymentProcess-out-0", paymentDispatcherMessage);
-        log.info("Enviando com sucesso.", paymentDispatcherMessage.toString());
 
-        return pay.stream().collect(Collectors.toList());
+        log.info("Enviando para processadora com sucesso.", paymentDispatcherMessage);
+        return listOrder.stream().collect(Collectors.toList());
     }
-
 
 }

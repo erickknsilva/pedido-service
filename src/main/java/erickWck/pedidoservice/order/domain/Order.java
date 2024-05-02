@@ -12,11 +12,10 @@ import java.time.Instant;
 
 @Table(name = "orders")
 public record Order(
+//
+//        @Id
+//        Long id,
 
-        @Id
-        Long id,
-
-        @NotNull(message = "Insira o identificador de pedido.")
         Long orderId,
 
         @NotNull(message = "Insira o Identificador do produto")
@@ -30,6 +29,8 @@ public record Order(
 
         OrderStatus status,
 
+        Long paymentId,
+
         @CreatedDate
         Instant createdDate,
         @LastModifiedDate
@@ -39,18 +40,18 @@ public record Order(
 
 ) {
 
-    public static Order of(Long id, Long orderId, Long productId, String productName, String marca,
+
+    public static Order of(Long productId, String productName, String marca,
                            BigDecimal preco, OrderStatus status) {
 
-        return new Order(null, orderId, productId, productName, marca, preco,
-                status, null, null, 0);
+        return new Order(1L, productId, productName, marca, preco,
+                status, null, null, null, 0);
     }
 
 
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
                 ", productId=" + productId +
                 ", name='" + name + '\'' +
                 ", preco=" + preco +

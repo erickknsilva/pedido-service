@@ -2,8 +2,6 @@ package erickWck.pedidoservice.order.domain;
 
 import lombok.Builder;
 
-import java.math.BigDecimal;
-
 @Builder
 public record PaymentRequest(
 

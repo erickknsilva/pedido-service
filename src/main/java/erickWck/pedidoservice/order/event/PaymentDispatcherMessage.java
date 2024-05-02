@@ -9,25 +9,17 @@ public record PaymentDispatcherMessage(
         String cardNumber,
         String expiryDate,
         String cvv,
-        String cardholderName
+        String cardholderName,
+        Long orderId
 
 ) {
 
     public static PaymentDispatcherMessage of(BigDecimal amount, String type,
                                               String cardNumber, String expiryDate,
-                                              String cvv, String cardholderName) {
+                                              String cvv, String cardholderName, Long orderId) {
         return new PaymentDispatcherMessage(amount, type,
-                cardNumber, expiryDate, cvv, cardholderName);
+                cardNumber, expiryDate, cvv, cardholderName, orderId);
     }
-
-
-//        "PaymentRequest":{
-//        "type":"credit_card",  // Tipo de método de pagamento
-//                "cardNumber":"4111111111111111",  // Número do cartão (apenas um exemplo)
-//                "expiryDate":"12/24",  // Data de expiração
-//                "cvv":"123",  // CVV do cartão
-//                "cardholderName":"John Doe"  // Nome do titular do cartão
-//    }
 
 
     @Override
@@ -39,6 +31,7 @@ public record PaymentDispatcherMessage(
                 ", expiryDate='" + expiryDate + '\'' +
                 ", cvv='" + cvv + '\'' +
                 ", cardholderName='" + cardholderName + '\'' +
+                ", orderId=" + orderId +
                 '}';
     }
 }

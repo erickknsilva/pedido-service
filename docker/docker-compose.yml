@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  order-products:
+  pedido-service:
     depends_on:
       - loja-postgres
       - loja-rabbitmq
     image: "ghcr.io/erickknsilva/pedido-service"
-    container_name: "order-products"
+    container_name: "pedido-service"
     ports:
       - 9002:9002
       - 8002:8002

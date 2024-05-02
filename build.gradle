@@ -54,14 +54,11 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
 bootBuildImage {
     builder = "docker.io/paketobuildpacks/builder-jammy-base"
-    imageName = 'pedido-products-services'
-    environment = ["BP_JVM_VERSION": "17.*"]
+    imageName = "${project.name}"
+    environment = ["BP_JVM_VERSION": "17"]
+
     docker {
         publishRegistry {
             username = project.findProperty("registryUsername")
@@ -70,3 +67,9 @@ bootBuildImage {
         }
     }
 }
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+

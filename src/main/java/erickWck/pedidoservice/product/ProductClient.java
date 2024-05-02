@@ -26,7 +26,7 @@ public class ProductClient {
 
     public Mono<List<ProductResponse>> getProductId(OrdersRequest ordersRequest) {
         validationList(ordersRequest);
-        System.out.println(ordersRequest.paymentRequest().cardholderName());
+
         return webClient.post()
                 .uri(PRODUCT_ROUTE_API)
                 .contentType(MediaType.APPLICATION_JSON)

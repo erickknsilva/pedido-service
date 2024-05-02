@@ -14,24 +14,25 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceQuery {
 
-    private final OrderRepository orderRepository;
 
+    private final OrderRepository orderRepository;
 
     public Mono<List<Order>> processAndSaveOrders(List<ProductResponse> productResponses) {
 
-        List<Order> orders = convertToOrders(generatePositiveOrderId(), productResponses);
+
+        List<Order> orders = convertToOrders(productResponses);
         return orderRepository.saveAll(orders).collectList();
     }
 
-    private List<Order> convertToOrders(Long orderId, List<ProductResponse> responses) {
+    private List<Order> convertToOrders(List<ProductResponse> responses) {
         return responses.stream()
-                .map(response -> Order.of(null, orderId, response.id(), response.name(),
+                .map(response -> Order.of(response.id(), response.name(),
                         response.marca(), response.preco(), OrderStatus.ACCEPTED))
                 .collect(Collectors.toList());
     }
 
 
-    private long generatePositiveOrderId() {
+    public Long generatePositiveOrderId() {
 
         // Gere um UUID aleatório
         UUID uuid = UUID.randomUUID();
